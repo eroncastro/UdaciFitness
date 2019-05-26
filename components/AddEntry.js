@@ -1,22 +1,33 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
-import { getMetricsMetaInfo } from '../utils/helpers';
+import { getMetricsMetaInfo, timeToString } from '../utils/helpers';
 import DateHeader from './DateHeader';
 import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
+
+const initialState = () => Object.freeze({
+  run: 0,
+  bike: 0,
+  swim: 0,
+  sleep: 0,
+  eat: 0
+});
+
+function SubmitBtn({ onPress}) {
+  return (
+    <TouchableOpacity
+      onPress={onPress}>
+      <Text>Submit</Text>
+    </TouchableOpacity>
+  );
+}
 
 export default class AddEntry extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      run: 0,
-      bike: 0,
-      swim: 0,
-      sleep: 0,
-      eat: 0
-    };
+    this.state = initialState();
   }
 
   increment(metric) {
@@ -37,6 +48,21 @@ export default class AddEntry extends React.Component {
 
   slide(metric, value) {
     return this.setState({ [metric]: value });
+  }
+
+  submit() {
+    const key = timeToString();
+    const entry = this.state
+
+    // Update Redux
+
+    this.setState(initialState);
+
+    // Navigate to Home
+
+    // Save to database
+
+    // Clear local notification
   }
 
   render() {
@@ -69,6 +95,7 @@ export default class AddEntry extends React.Component {
             </View>
           );
         })}
+        <SubmitBtn onPress={() => this.submit()} />
       </View>
     );
   }
