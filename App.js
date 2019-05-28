@@ -3,6 +3,7 @@ import {
   Text,
   View,
   StyleSheet,
+  Slider,
   TouchableHighlight,
   TouchableNativeFeedback,
   TouchableOpacity,
@@ -11,6 +12,14 @@ import {
 import AddEntry from './components/AddEntry';
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: 0
+    };
+  }
+
   handlePress() {
     alert('Hello');
   }
@@ -29,19 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     marginRight: 10,
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center'
-  },
-  btn: {
-    backgroundColor: '#E53224',
-    padding: 10,
-    paddingLeft: 50,
-    paddingRight: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5
-  },
-  btnText: {
-    color: '#fff'
   }
 });

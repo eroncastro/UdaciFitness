@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 import { getMetricsMetaInfo, timeToString } from '../utils/helpers';
 import DateHeader from './DateHeader';
 import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
+import TextButton from './TextButton';
 
 const initialState = () => Object.freeze({
   run: 0,
@@ -65,8 +67,31 @@ export default class AddEntry extends React.Component {
     // Clear local notification
   }
 
+  reset() {
+    const key = timeToString();
+
+    // Update Redux
+
+    // Route to home
+
+    // Update DB
+  }
+
   render() {
     const metaInfo = getMetricsMetaInfo();
+
+    if (this.props.alreadyLogged) {
+      return (
+        <View>
+          <Ionicons
+            name="ios-happy"
+            size={100}
+          />
+          <Text>You already logged your information for today.</Text>
+          <TextButton onPress={this.reset}>Reset</TextButton>
+        </View>
+      )
+    }
 
     return (
       <View>
