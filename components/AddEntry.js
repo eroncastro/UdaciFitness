@@ -16,7 +16,7 @@ const initialState = () => Object.freeze({
   eat: 0
 });
 
-function SubmitBtn({ onPress}) {
+function SubmitBtn({ onPress }) {
   return (
     <TouchableOpacity
       onPress={onPress}>
@@ -54,7 +54,7 @@ export default class AddEntry extends React.Component {
 
   submit() {
     const key = timeToString();
-    const entry = this.state
+    const entry = this.state;
 
     // Update Redux
 
