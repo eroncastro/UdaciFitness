@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { getMetricsMetaInfo, timeToString } from '../utils/helpers';
+import { getMetricMetaInfo, timeToString } from '../utils/helpers';
 import DateHeader from './DateHeader';
 import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
@@ -33,18 +33,18 @@ export default class AddEntry extends React.Component {
   }
 
   increment(metric) {
-    const { max, step } = getMetricsMetaInfo(metric);
+    const { max, step } = getMetricMetaInfo(metric);
 
-    this.setState((state) => {
-      return { [metric]: Math.max(state[metric] + step, max) };
+    this.setState(state => {
+      return { [metric]: Math.min(state[metric] + step, max) };
     });
   }
 
   decrement(metric) {
-    const { step } = getMetricsMetaInfo(metric);
+    const { step } = getMetricMetaInfo(metric);
 
-    this.setState((state) => {
-      return { [metric]: Math.min(state[metric] - step, 0) };
+    this.setState(state => {
+      return { [metric]: Math.max(state[metric] - step, 0) };
     });
   }
 
@@ -78,7 +78,7 @@ export default class AddEntry extends React.Component {
   }
 
   render() {
-    const metaInfo = getMetricsMetaInfo();
+    const metaInfo = getMetricMetaInfo();
 
     if (this.props.alreadyLogged) {
       return (
@@ -96,30 +96,30 @@ export default class AddEntry extends React.Component {
     return (
       <View>
         <DateHeader date={(new Date()).toLocaleDateString()} />
-        {Object.keys(metaInfo).map((key, index) => {
-          const { getIcon, type, ...rest } = metaInfo[key];
-          const value = this.state[key];
+          {Object.keys(metaInfo).map((key, index) => {
+            const { getIcon, type, ...rest } = metaInfo[key];
+            const value = this.state[key];
 
-          return (
-            <View key={index}>
-              {getIcon()}
-              {
-                type === 'slider'
-                  ? <UdaciSlider
-                      value={value}
-                      onChange={value => this.slide(key, value)}
-                      {...rest}
-                    />
-                  : <UdaciSteppers
-                      value={value}
-                      onIncrement={() => this.increment(key)}
-                      onDecrement={() => this.decrement(key)}
-                      {...rest}
-                    />
-              }
-            </View>
-          );
-        })}
+            return (
+              <View key={index}>
+                {getIcon()}
+                {
+                  type === 'slider'
+                    ? <UdaciSlider
+                        value={value}
+                        onChange={value => this.slide(key, value)}
+                        {...rest}
+                      />
+                    : <UdaciSteppers
+                        value={value}
+                        onIncrement={() => this.increment(key)}
+                        onDecrement={() => this.decrement(key)}
+                        {...rest}
+                      />
+                }
+              </View>
+            );
+          })}
         <SubmitBtn onPress={() => this.submit()} />
       </View>
     );
