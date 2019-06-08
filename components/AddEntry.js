@@ -7,6 +7,7 @@ import DateHeader from './DateHeader';
 import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
 import TextButton from './TextButton';
+import { removeEntry, submitEntry } from '../utils/api';
 
 const initialState = () => Object.freeze({
   run: 0,
@@ -62,7 +63,7 @@ export default class AddEntry extends React.Component {
 
     // Navigate to Home
 
-    // Save to database
+    submitEntry({ key, entry });
 
     // Clear local notification
   }
@@ -74,7 +75,7 @@ export default class AddEntry extends React.Component {
 
     // Route to home
 
-    // Update DB
+    removeEntry(key);
   }
 
   render() {
