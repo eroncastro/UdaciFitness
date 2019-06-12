@@ -77,9 +77,7 @@ class AddEntry extends React.Component {
   reset() {
     const key = timeToString();
 
-    this.props.addEntry({
-      [key]: getDailyReminderValue()
-    });
+    this.props.addEntry({ [key]: getDailyReminderValue() });
 
     // Route to home
 
@@ -97,7 +95,7 @@ class AddEntry extends React.Component {
             size={100}
           />
           <Text>You already logged your information for today.</Text>
-          <TextButton onPress={this.reset}>Reset</TextButton>
+          <TextButton onPress={() => this.reset()}>Reset</TextButton>
         </View>
       )
     }

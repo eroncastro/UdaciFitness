@@ -13,9 +13,13 @@ export function submitEntry({ entry, key }) {
 export function removeEntry({ key }) {
   return AsyncStorage.getItem(CALENDAR_STORAGE_KEY)
     .then(results => {
-      const data = JSON.stringify(results).reduce((prev, cur) => {
+      alert(results);
+      const keys = Object.keys(results);
+      alert(keys);
+      const data = keys.reduce((prev, cur) => {
         return cur.key === key ? prev : { ...prev, cur };
-      });
+      }, {});
+      alert(data);
 
       AsyncStorage.setItem(key, JSON.stringify(data));
     })
