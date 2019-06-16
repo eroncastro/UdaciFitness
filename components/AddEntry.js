@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+  StyleSheet
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 
@@ -13,6 +19,7 @@ import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
 import TextButton from './TextButton';
 import { removeEntry, submitEntry } from '../utils/api';
+import { white, purple } from '../utils/colors';
 import { addEntry, receiveEntries } from '../actions';
 
 const initialState = () => Object.freeze({
@@ -26,8 +33,9 @@ const initialState = () => Object.freeze({
 function SubmitBtn({ onPress }) {
   return (
     <TouchableOpacity
+      style={styles[`${Platform.OS.toLowerCase()}SubmitBtn`]}
       onPress={onPress}>
-      <Text>Submit</Text>
+      <Text style={styles.submitBtnText}>Submit</Text>
     </TouchableOpacity>
   );
 }
@@ -89,26 +97,26 @@ class AddEntry extends React.Component {
 
     if (this.props.alreadyLogged) {
       return (
-        <View>
+        <View style={styles.center}>
           <Ionicons
-            name="ios-happy"
+            name={Platform.OS === 'ios' ? 'ios-happy' : 'md-happy'}
             size={100}
           />
-          <Text>You already logged your information for today.</Text>
+          <Text style={{ padding: 10 }}>You already logged your information for today.</Text>
           <TextButton onPress={() => this.reset()}>Reset</TextButton>
         </View>
       )
     }
 
     return (
-      <View>
+      <View style={styles.container}>
         <DateHeader date={(new Date()).toLocaleDateString()} />
           {Object.keys(metaInfo).map((key, index) => {
             const { getIcon, type, ...rest } = metaInfo[key];
             const value = this.state[key];
 
             return (
-              <View key={index}>
+              <View key={index} style={styles.row}>
                 {getIcon()}
                 {
                   type === 'slider'
@@ -132,6 +140,50 @@ class AddEntry extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: white
+  },
+  row: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center'
+  },
+  iosSubmitBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    borderRadius: 7,
+    height: 45,
+    marginLeft: 40,
+    marginRight: 40
+  },
+  androidSubmitBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    height: 45,
+    borderRadius: 2,
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  submitBtnText: {
+    color: white,
+    fontSize: 22,
+    textAlign: 'center'
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 30,
+    marginRight: 30
+  }
+});
 
 const mapStateToProps = (state) => {
   const key = timeToString();

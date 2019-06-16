@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 100
+    marginRight: 50
   }
 });
 
@@ -71,7 +71,7 @@ export function getMetricMetaInfo(metric) {
           <View style={[styles.iconContainer, { backgroundColor: red }]}>
             <MaterialIcons
               name='directions-run'
-              color={white  }
+              color={white}
               size={35}
             />
           </View>
